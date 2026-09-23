@@ -5,6 +5,8 @@ import { AuthService } from './auth/auth.service';
 import { AuditService } from './common/audit.service';
 import { DatabaseService } from './common/database.service';
 import { HealthController } from './common/health.controller';
+import { PrescriptionsController } from './prescriptions/prescriptions.controller';
+import { PrescriptionsService } from './prescriptions/prescriptions.service';
 import { RecordsController } from './records/records.controller';
 import { RecordsService } from './records/records.service';
 
@@ -15,7 +17,7 @@ import { RecordsService } from './records/records.service';
       signOptions: { expiresIn: '8h' },
     }),
   ],
-  controllers: [HealthController, AuthController, RecordsController],
-  providers: [AuthService, DatabaseService, AuditService, RecordsService],
+  controllers: [HealthController, AuthController, RecordsController, PrescriptionsController],
+  providers: [AuthService, DatabaseService, AuditService, RecordsService, PrescriptionsService],
 })
 export class AppModule {}
