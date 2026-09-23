@@ -40,7 +40,24 @@ CREATE TABLE IF NOT EXISTS prescriptions (
   dosage VARCHAR(80) NOT NULL,
   frequency VARCHAR(80) NOT NULL,
   duration VARCHAR(80) NOT NULL,
-  status VARCHAR(20) NOT NULL DEFAULT '待审核'
+  status VARCHAR(20) NOT NULL DEFAULT '待审核',
+  created_by VARCHAR(80) NOT NULL DEFAULT '',
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 兼容已初始化的数据卷：补齐新增列
+ALTER TABLE prescriptions ADD COLUMN IF NOT EXISTS created_by VARCHAR(80) NOT NULL DEFAULT '';
+ALTER TABLE prescriptions ADD COLUMN IF NOT EXISTS created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE prescriptions ADD COLUMN IF NOT EXISTS updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;
+
+CREATE TABLE IF NOT EXISTS prescription_status_logs (
+  id SERIAL PRIMARY KEY,
+  prescription_id INT NOT NULL REFERENCES prescriptions(id),
+  from_status VARCHAR(20),
+  to_status VARCHAR(20) NOT NULL,
+  operator VARCHAR(80) NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 INSERT INTO patients (record_no, name, gender, age, id_card, phone, allergies, history)

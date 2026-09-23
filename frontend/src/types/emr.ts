@@ -28,3 +28,36 @@ export interface Summary {
   prescriptionCount: number;
   workload: Array<{ department: string; count: number }>;
 }
+
+export interface PrescriptionStatusLog {
+  id: number;
+  prescriptionId: number;
+  fromStatus: string | null;
+  toStatus: string;
+  operator: string;
+  createdAt: string;
+}
+
+export interface Prescription {
+  id: number;
+  recordId: number;
+  drugName: string;
+  specification: string;
+  dosage: string;
+  frequency: string;
+  duration: string;
+  status: string;
+  createdBy: string;
+  createdAt: string;
+  updatedAt: string;
+  logs: PrescriptionStatusLog[];
+}
+
+export interface CreatePrescriptionPayload {
+  drugName: string;
+  specification: string;
+  dosage: string;
+  frequency: string;
+  duration: string;
+  operator?: string;
+}

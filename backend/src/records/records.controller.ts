@@ -1,5 +1,10 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
-import { CreatePatientDto, RecordsService } from './records.service';
+import { Body, Controller, Get, Param, Patch, Post, Query } from '@nestjs/common';
+import {
+  CreatePatientDto,
+  CreatePrescriptionDto,
+  RecordsService,
+  UpdatePrescriptionStatusDto,
+} from './records.service';
 
 @Controller()
 export class RecordsController {
@@ -28,5 +33,20 @@ export class RecordsController {
   @Post('patients/:id/records')
   createRecord(@Param('id') id: string) {
     return this.recordsService.createRecord(Number(id));
+  }
+
+  @Get('records/:id/prescriptions')
+  prescriptions(@Param('id') id: string) {
+    return this.recordsService.listPrescriptions(Number(id));
+  }
+
+  @Post('records/:id/prescriptions')
+  createPrescription(@Param('id') id: string, @Body() body: CreatePrescriptionDto) {
+    return this.recordsService.createPrescription(Number(id), body);
+  }
+
+  @Patch('prescriptions/:id/status')
+  updatePrescriptionStatus(@Param('id') id: string, @Body() body: UpdatePrescriptionStatusDto) {
+    return this.recordsService.updatePrescriptionStatus(Number(id), body);
   }
 }
